@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en" class="h-100">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>문제 만들기</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+      crossorigin="anonymous"
+    />
+
+    <link href="../css/cover.css" rel="stylesheet" />
+  </head>
+  <body class="d-flex h-100 text-center text-bg-white">
+    <div class="study-container d-flex w-100 h-100 p-3 mx-auto flex-column">
+      <header class="mb-3em-min padding-x-10-per">
+        <header class="mb-auto">
+          <div>
+            <h3
+              class="float-md-start mb-0"
+              id="main-title"
+              style="cursor: pointer"
+              onclick="location.href='index.html'"
+            >
+              CS MASTER
+            </h3>
+            <nav class="nav nav-masthead justify-content-center float-md-end">
+              <a class="nav-link fw-bold py-1 px-0" aria-current="page" href="#"
+                >CS STUDY
+              </a>
+              <a class="nav-link fw-bold py-1 px-0" aria-current="page" href="#"
+                >CS QUIZ
+              </a>
+              <a class="nav-link fw-bold py-1 px-0" aria-current="page" href="#"
+                >MY PAGE
+              </a>
+              <a class="nav-link fw-bold py-1 px-0" href="#">LOGOUT</a>
+            </nav>
+          </div>
+        </header>
+      </header>
+
+      <main class="py-3">
+        <div id="quiz_container" class="container row row-cols-2">
+          <div id="explain_container" class="container row col-3">
+            <div id="explain_title" class="mb-5">문제 생성 방법</div>
+            <div id="explain_content" class="mb-5">
+              <p>
+                기존 CS 개념 본문에서 공백 퀴즈를 만들 부분을 "(_blank)"" 로
+                바꾸어 저장 해주세요.
+              </p>
+              <p>예시. (본문) 새콤달콤은 딸기 맛이 진리다.</p>
+              <p>(퀴즈 생성) 새콤달콤은 (_blank) 맛이 진리다.</p>
+            </div>
+          </div>
+          <form action="post" class="mt-5 col-9">
+            <div id="quiz_create_container" class="container row">
+              <div id="quiz_create_title" class="row-3">
+                <h2 class="mb-5">퀴즈를 만들어주세요</h2>
+                <h4>
+                  해당 개념에서 중요 포인트를 정해서 빈칸 문제를 만들어주세요
+                </h4>
+              </div>
+              <div id="quiz_create_content" class="row-9 px-5">
+                <textarea
+                  class="form-control"
+                  placeholder="Leave a comment here"
+                  id="quiz_content"
+                  style="height: 40vh"
+                >
+                개념 (_blank) 어쩌구 저쩌구 (_blank) 어쩌구 저쩌구어쩌구 
+                저쩌구어쩌구 저쩌구어쩌구 저쩌구어쩌구 저쩌구어쩌구 저쩌구어쩌구 
+                저쩌구어쩌구 저쩌구어쩌구 저쩌구어쩌구 저쩌구어쩌구 저쩌구어쩌구 
+                저쩌구어쩌구 저쩌구어쩌구 저쩌구어쩌구 저쩌구어쩌구 저쩌구
+              </textarea
+                >
+              </div>
+              <div class="row mt-5">
+                <div class="col">
+                  <button class="w-100 btn btn-primary btn-lg" type="submit">
+                    퀴즈 생성
+                  </button>
+                </div>
+                <div class="col">
+                  <button
+                    class="w-100 btn btn-secondary btn-lg"
+                    onclick="location.href='study.html'"
+                    type="button"
+                  >
+                    취소
+                  </button>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </main>
+      <footer class="mt-auto text-white-50">
+        <p>
+          project by
+          <a class="text-white" href="https://blog.naver.com/dogfoot_birdfoot"
+            >G1</a
+          >
+        </p>
+      </footer>
+    </div>
+
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+      crossorigin="anonymous"
+    ></script>
+  </body>
+</html>
