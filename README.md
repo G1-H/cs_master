@@ -48,3 +48,7 @@
    - randomQuizList(무작위 퀴즈)
    - submitAnswer(정답 제출)
    - quizDetail(퀴즈 상세)
+
+### UI 구성 (피그마)
+
+<img width="16384" alt="CS MASTER" src="https://github.com/user-attachments/assets/0adf5312-c13a-4499-9570-410aebfa1265" />
