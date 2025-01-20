@@ -12,17 +12,17 @@
    - signIn(로그인)
    - signUp(회원가입)
    - getUser(마이페이지 정보 가져오기)
-   - submittedQuizList(풀었던 문제 리스트)
+   - solvedQuizList(풀었던 문제 리스트)
    - learnedConceptList(학습한 개념 리스트)
    - bookMarkConceptList(북마크 개념 리스트)
-   - gradeUpdate(등급 갱신)
    - updateInfo(회원 정보 수정)
 
-2. cs 개념 학습 게시판
+
+2. CS 개념 학습 게시판
 
    - createConcept(개념 등록)
    - updateConcept(개념 수정)
-   - deleteConcpet(개념 삭제 / 삭제 요청)
+   - deleteConcept(개념 삭제 / 삭제 요청)
    - rollbackToPrevVersion(개념 이전 버전으로 롤백)
    - searchConceptList(개념 검색 리스트)
    - partialConceptList(분류별 개념 리스트)
@@ -39,6 +39,7 @@
    - bookMark(북마크)
    - reportAbuse(악질 신고)
 
+
 3. 퀴즈 게시판
 
    - createQuiz(퀴즈 등록)
@@ -48,7 +49,10 @@
    - randomQuizList(무작위 퀴즈)
    - submitAnswer(정답 제출)
    - quizDetail(퀴즈 상세)
+   - sendQuizKakao(오늘의 퀴즈 카톡 전송)
 
 ### UI 구성 (피그마)
 
 <img width="16384" alt="CS MASTER" src="https://github.com/user-attachments/assets/0adf5312-c13a-4499-9570-410aebfa1265" />
+
+
