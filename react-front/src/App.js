@@ -10,11 +10,20 @@ import Home from "./pages/Home";
 import Learning from "./pages/Learning";
 import MyPage from "./pages/MyPage";
 import Quiz from "./pages/Quiz";
+import Login from "./pages/Login";
+import Board from "./components/Board";
+import DetailView from "./components/DetailView";
+import MyPageInfo from "./components/myPageRightComponents/MyPageInfo";
+import MyPageGrade from "./components/myPageRightComponents/MyPageGrade";
+import MyPageSubmitQuiz from "./components/myPageRightComponents/MyPageSubmitQuiz";
+import MyPageStudyConcept from "./components/myPageRightComponents/MyPageStudyConcept";
+import MyPageBookmarkConcept from "./components/myPageRightComponents/MyPageBookmarkConcept";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   const onClickLogin = () => {
+    console.log("여기 되는거야?");
     setIsLoggedIn(true);
   };
   const onClickLogout = () => {
@@ -33,9 +42,28 @@ function App() {
         <section className="body-block">
           <Routes>
             <Route path="/" element={<Home />}></Route>
-            <Route path="/learning" element={<Learning />}></Route>
+            <Route
+              path="/login"
+              element={<Login onClickLogin={onClickLogin} />}
+            ></Route>
+            <Route path="/learning" element={<Learning />}>
+              <Route path=":id" element={<Board />}></Route>
+              <Route path=":id/detail/:id" element={<DetailView />} />
+            </Route>
             <Route path="/quiz" element={<Quiz />}></Route>
-            <Route path="/mypage" element={<MyPage />}></Route>
+            <Route path="/mypage" element={<MyPage />}>
+              <Route path="info" element={<MyPageInfo />}></Route>
+              <Route path="grade" element={<MyPageGrade />}></Route>
+              <Route path="submit-quiz" element={<MyPageSubmitQuiz />}></Route>
+              <Route
+                path="study-concept"
+                element={<MyPageStudyConcept />}
+              ></Route>
+              <Route
+                path="bookmark-concept"
+                element={<MyPageBookmarkConcept />}
+              ></Route>
+            </Route>
           </Routes>
         </section>
       </main>
