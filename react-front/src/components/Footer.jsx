@@ -4,7 +4,10 @@ const AppFooter = () => {
       <div className="container-fluid">
         <div className="copyright">
           <span>project by </span>
-          <a class="text-white" href="https://blog.naver.com/dogfoot_birdfoot">
+          <a
+            className="text-white"
+            href="https://blog.naver.com/dogfoot_birdfoot"
+          >
             G1
           </a>
         </div>
