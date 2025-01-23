@@ -1,7 +1,37 @@
+import IndexPageTitle from "../components/IndexPageTitle";
+
+import Button from "react-bootstrap/Button";
+import { useNavigate } from "react-router-dom";
+import React, { useState } from "react";
+
 const Home = (props) => {
+  const entryTitle = [
+    "간단한 테스트를 통해 CS 능력을 체크해보고",
+    "모자란 개념은 찾아서 익혀보세요.",
+  ];
+  const loginTitle = ["hihi", " hihi"];
+  const [title, setTitle] = useState(entryTitle);
+
+  const navigate = useNavigate();
+
+  const handleLoginClick = () => {
+    setTitle(loginTitle);
+    navigate("/login");
+  };
+
   return (
-    <div>
-      <span>홈 페이지 </span>{" "}
+    <div className="main-container">
+      <IndexPageTitle title={title}></IndexPageTitle>
+      <div>
+        <Button variant="primary" size="lg">
+          테스트하고 회원가입 하러 가기
+        </Button>
+        <Button variant="primary" size="lg" onClick={handleLoginClick}>
+          이미 회원이에요.
+          <br />
+          <div className="sub-title">로그인하러 가기</div>
+        </Button>
+      </div>
     </div>
     //인덱스 페이지도 로그인 여부에 따라 두가지로.
   );
