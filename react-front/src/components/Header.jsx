@@ -5,7 +5,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 const AppHeader = (props) => {
-  const { isLoggedIn, onClickLogin, onClickLogout } = props;
+  const { isLoggedIn, onClickLogout } = props;
   return (
     <Navbar
       expand="lg"
@@ -14,7 +14,9 @@ const AppHeader = (props) => {
       data-bs-theme="dark"
     >
       <Container>
-        <Navbar.Brand href="#home">CS MASTER</Navbar.Brand>
+        <Navbar.Brand as={Link} to="/">
+          CS MASTER
+        </Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">
@@ -41,7 +43,7 @@ const AppHeader = (props) => {
                 LOGOUT
               </Nav.Link>
             ) : (
-              <Nav.Link as={Link} to="/login" onClick={onClickLogin}>
+              <Nav.Link as={Link} to="/login">
                 LOGIN
               </Nav.Link>
             )}
