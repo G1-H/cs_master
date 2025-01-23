@@ -135,8 +135,8 @@ ul,
 }
 
 .btn.btn-primary {
-  background: #f64b4b;
-  border-color: #f64b4b;
+  background: #bde3ff;
+  border-color: #bde3ff;
   padding: 13px 35px;
   font-size: 14px;
   line-height: 18px;
@@ -150,7 +150,7 @@ ul,
 .btn.btn-primary:hover {
   background: #fff;
   border-color: #f64b4b;
-  color: #f64b4b;
+  color: white;
 }
 
 .btn.btn-primary .fas {
@@ -158,6 +158,9 @@ ul,
   font-size: 15px;
 }
 
+.btn.btn-succuss {
+  font-size: 14px;
+}
 input[type="text"],
 input[type="email"],
 input[type="tel"],
@@ -473,6 +476,10 @@ textarea {
 
 .body-block {
   margin: 65px 0 0;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  background: #b3b3b3;
 }
 
 .hero-block .carousel-item:before {
@@ -769,6 +776,7 @@ textarea {
   padding: 10px 20px;
   border: 0;
   background: #f7f7f7;
+  text-align: center;
 }
 
 .pricing-block .content .list-group-item:nth-child(2n-1) {
@@ -953,6 +961,58 @@ textarea {
   font-size: 40px;
   margin: 0 0 15px;
   color: #f64b4b;
+}
+/*메인 컨테이너 플랙스  */
+.main-container {
+  display: flex;
+  flex-direction: column;
+  width: 80%;
+  height: 80vh;
+}
+.main-container-row {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 80%;
+  height: 80vh;
+}
+.main-container div {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+.main-container button {
+  margin: 10px 30px 10px 30px;
+  width: 18rem;
+  height: 5rem;
+
+  color: black;
+}
+
+.main-container button:hover {
+  color: white !important;
+}
+.main-container button:active {
+  color: white !important;
+}
+
+#index-page-title {
+  padding: 20vh 0 5vh 0;
+  color: white;
+  font-size: 1.5rem;
+}
+
+#index-page-title div {
+  text-align: center;
+}
+
+.sub-title {
+  font-size: 0.8rem;
+  color: grey;
+}
+
+.leftListGroup {
+  gap: 20px;
 }
 
 @media only screen and (min-width: 1025px) {
