@@ -1,27 +1,22 @@
-import IndexPageTitle from "../components/IndexPageTitle";
-
 import Button from "react-bootstrap/Button";
 import { useNavigate } from "react-router-dom";
 import React, { useState } from "react";
 
 const Home = (props) => {
-  const entryTitle = [
-    "간단한 테스트를 통해 CS 능력을 체크해보고",
-    "모자란 개념은 찾아서 익혀보세요.",
-  ];
-  const loginTitle = ["hihi", " hihi"];
-  const [title, setTitle] = useState(entryTitle);
-
   const navigate = useNavigate();
 
   const handleLoginClick = () => {
-    setTitle(loginTitle);
     navigate("/login");
   };
 
   return (
     <div className="main-container">
-      <IndexPageTitle title={title}></IndexPageTitle>
+      <div id="index-page-title">
+        <div>
+          간단한 테스트를 통해 CS 능력을 체크해보고, <br />
+          모자란 개념은 찾아서 익혀보세요.
+        </div>
+      </div>
       <div>
         <Button variant="primary" size="lg">
           테스트하고 회원가입 하러 가기
