@@ -1,7 +1,7 @@
 import { useLocation } from "react-router-dom";
 import { Image } from "react-bootstrap";
-import heartSvg from "../assets/heart.svg";
-import starSvg from "../assets/star.svg";
+import heartFillSvg from "../assets/heart-fill.svg";
+import starFillSvg from "../assets/star-fill.svg";
 
 const DetailView = () => {
   const location = useLocation();
@@ -33,13 +33,13 @@ const DetailView = () => {
         <div>
           <img
             style={{ width: "20px", marginRight: "5px" }}
-            src={heartSvg}
+            src={heartFillSvg}
             alt="좋아요"
           />
           {content.likes}
           <img
             style={{ width: "20px", marginRight: "5px" }}
-            src={starSvg}
+            src={starFillSvg}
             alt="북마크"
           />
         </div>
