@@ -11,7 +11,7 @@ const AppHeader = (props) => {
       expand="lg"
       className="bg-body-tertiary"
       bg="light"
-      data-bs-theme="dark"
+      data-bs-theme="light"
     >
       <Container>
         <Navbar.Brand as={Link} to="/">
