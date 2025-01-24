@@ -1,10 +1,11 @@
 import Dropdown from "react-bootstrap/Dropdown";
+import { Link } from "react-router-dom";
 
 const DropdwonButton = (props) => {
   const { variant, title, items, onItemClick } = props;
   return (
     <Dropdown>
-      <Dropdown.Toggle variant={variant} id="dropdown-basic">
+      <Dropdown.Toggle variant={variant} id="dropdown-basic" size="sm">
         {title}
       </Dropdown.Toggle>
 
@@ -13,7 +14,9 @@ const DropdwonButton = (props) => {
           return (
             <Dropdown.Item
               key={index}
-              href={item.href || "#"}
+              as={Link}
+              to={item.to}
+              state={item.state}
               onClick={() => onItemClick?.(item)}
             >
               {item.label}
