@@ -1,6 +1,6 @@
 import Button from "react-bootstrap/Button";
 import { useNavigate } from "react-router-dom";
-import React, { useState } from "react";
+import React from "react";
 
 const Home = (props) => {
   const navigate = useNavigate();

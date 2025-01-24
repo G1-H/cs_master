@@ -77,7 +77,9 @@ const MyPage = (props) => {
           onSelect={setSelectedContent}
         ></LeftListGroup>
       </div>
-      <Outlet context={{ contents, styles }}></Outlet>
+      <div className="mypage-right-container">
+        <Outlet context={{ contents, styles }}></Outlet>
+      </div>
     </div>
   );
 };

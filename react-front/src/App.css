@@ -1014,6 +1014,38 @@ textarea {
 .leftListGroup {
   gap: 20px;
 }
+/* 학습 페이지, 마이페이지 오른쪽 컨테이너 */
+.learning-right-container,
+.mypage-right-container {
+  width: 60%;
+  margin-top: 30px;
+  padding: 30px;
+}
+
+/* 학습 페이지, 마이페이지 오른쪽 컨테이너 리스트  */
+.learning-right-container .list-group-item,
+.mypage-right-container .list-group-item {
+  margin-top: 5px;
+  height: 40px;
+  cursor: pointer;
+}
+/* 학습 페이지, 마이페이지 오른쪽 컨테이너 리스트:hover  */
+.learning-right-container .list-group-item:hover,
+.mypage-right-container .list-group-item:hover {
+  background-color: #f64b4b;
+  color: white;
+}
+/* 학습 페이지 왼쪽 컨테이너 리스트:hover  */
+.learning-left-container .list-group-item:hover {
+  background-color: #f64b4b;
+  color: white;
+}
+
+/* 선택된 리스트 활성화 */
+.selected {
+  background-color: #f64b4b;
+  color: white;
+}
 
 @media only screen and (min-width: 1025px) {
   a[href^="tel"],

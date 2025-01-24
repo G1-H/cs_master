@@ -1,14 +1,8 @@
 import Board from "../Board";
 const MyPageStudyConcept = (props) => {
   return (
-    <div
-      style={{
-        width: "50%",
-        marginTop: "30px",
-        padding: "30px",
-      }}
-    >
-      <h3>내가 학습한 개념</h3>
+    <div>
+      <h4>내가 학습한 개념</h4>
       <Board contents={props.contents} styles={props.styles} />
     </div>
   );

@@ -84,14 +84,17 @@ const Learning = (props) => {
   };
   return (
     <div className="main-container-row">
-      <div style={{ width: "20vw", marginTop: "30px", padding: "30px" }}>
+      <div
+        className="learning-left-container"
+        style={{ width: "20vw", marginTop: "30px", padding: "30px" }}
+      >
         <LeftListGroup
           items={items}
           styles={styles}
           onSelect={setSelectedContent}
         ></LeftListGroup>
       </div>
-      <div style={{ width: "50%", marginTop: "30px", padding: "30px" }}>
+      <div className="learning-right-container">
         <Outlet context={{ contents, styles }}></Outlet>
       </div>
     </div>
