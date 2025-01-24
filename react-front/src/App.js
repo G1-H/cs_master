@@ -18,6 +18,9 @@ import MyPageGrade from "./components/myPageRightComponents/MyPageGrade";
 import MyPageSubmitQuiz from "./components/myPageRightComponents/MyPageSubmitQuiz";
 import MyPageStudyConcept from "./components/myPageRightComponents/MyPageStudyConcept";
 import MyPageBookmarkConcept from "./components/myPageRightComponents/MyPageBookmarkConcept";
+import ConceptCreate from "./pages/ConceptCreate";
+import QuizCreate from "./pages/QuizCreate";
+import ConceptUpdate from "./pages/ConceptUpdate";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -64,6 +67,9 @@ function App() {
                 element={<MyPageBookmarkConcept />}
               ></Route>
             </Route>
+            <Route path="/concept-create" element={<ConceptCreate />}></Route>
+            <Route path="/concept-update" element={<ConceptUpdate />}></Route>
+            <Route path="/quiz-create" element={<QuizCreate />}></Route>
           </Routes>
         </section>
       </main>
