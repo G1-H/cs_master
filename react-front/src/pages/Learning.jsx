@@ -34,6 +34,11 @@ const Learning = (props) => {
           "이러쿵저러이러쿵저러이러쿵저러이러쿵저러이러쿵저러이러쿵저러이러쿵저러이러쿵저러이러쿵저러쿵이러쿵저러이러쿵저러이러쿵저러이러쿵저러이러쿵저러이러쿵저러이러쿵저러이러쿵저러이러쿵저러쿵이러쿵저러이러쿵저러이러쿵저러이러쿵저러이러쿵저러이러쿵저러이러쿵저러이러쿵저러이러쿵저러쿵이러쿵저러이러쿵저러이러쿵저러이러쿵저러이러쿵저러이러쿵저러이러쿵저러이러쿵저러이러쿵저러쿵이러쿵저러이러쿵저러이러쿵저러이러쿵저러이러쿵저러이러쿵저러이러쿵저러이러쿵저러이러쿵저러쿵이러쿵저러이러쿵저러이러쿵저러이러쿵저러이러쿵저러이러쿵저러이러쿵저러이러쿵저러이러쿵저러쿵",
         author: "지원",
         likes: 3,
+        comments: [
+          { user: "유저1", comment: "유저1 댓글" },
+          { user: "유저2", comment: "유저2 댓글" },
+          { user: "유저3", comment: "유저3 댓글" },
+        ],
       },
       { category: "network", title: " 네트워크 ex3" },
       { category: "network", title: " 네트워크 ex2" },
@@ -86,7 +91,7 @@ const Learning = (props) => {
     <div className="main-container-row">
       <div
         className="learning-left-container"
-        style={{ width: "20vw", marginTop: "30px", padding: "30px" }}
+        style={{ width: "10vw", marginTop: "30px", padding: "30px" }}
       >
         <LeftListGroup
           items={items}
