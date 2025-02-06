@@ -55,4 +55,20 @@
 
 <img width="16384" alt="CS MASTER" src="https://github.com/user-attachments/assets/0adf5312-c13a-4499-9570-410aebfa1265" />
 
+### ERD
+
+> 테이블 목록
+> - 멤버 : members
+> - 개념 : concepts
+> - 퀴즈 : quizzes
+> - 댓글 : comments
+> - 개념 북마크 : concept_bookmarks
+> - 개념 좋아요 : concept_likes
+> - 퀴즈 정답 : quiz_answers
+> - 학습한 퀴즈 : quiz_learning_logs
+> - 오늘의 퀴즈 : daily_quizzes (레디스로 캐시 처리할 지 미정)
+
+<img width="1136" alt="Image" src="https://github.com/user-attachments/assets/95b36f18-c26c-41bb-a8b1-8b72f288b4cc" />  
+    
+
 
