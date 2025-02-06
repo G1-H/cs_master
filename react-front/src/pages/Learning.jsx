@@ -16,11 +16,14 @@ const Learning = (props) => {
 
   const [contents, setContents] = useState([]);
   const styles = {
-    listGroupItem: {
-      width: "20vw",
-    },
+    // listGroupItem: {
+    //   width: "100%",
+    //   marginTop: "30px",
+    //   padding: "30px",
+    // },
     contentList: {
-      width: "40vw",
+      width: "100%",
+      minWidth: "50vw",
     },
   };
   const category = {
@@ -91,7 +94,7 @@ const Learning = (props) => {
     <div className="main-container-row">
       <div
         className="learning-left-container"
-        style={{ width: "10vw", marginTop: "30px", padding: "30px" }}
+        style={{ width: "200px", marginTop: "30px", padding: "30px" }}
       >
         <LeftListGroup
           items={items}

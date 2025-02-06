@@ -21,6 +21,8 @@ import MyPageBookmarkConcept from "./components/myPageRightComponents/MyPageBook
 import ConceptCreate from "./pages/ConceptCreate";
 import QuizCreate from "./pages/QuizCreate";
 import ConceptUpdate from "./pages/ConceptUpdate";
+import QuizAnswer from "./pages/QuizAnswer";
+import QuizIndex from "./pages/QuizIndex";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -53,7 +55,11 @@ function App() {
               <Route path=":id" element={<Board />}></Route>
               <Route path=":id/detail/:id" element={<DetailView />} />
             </Route>
-            <Route path="/quiz" element={<Quiz />}></Route>
+            <Route path="/quiz" element={<Quiz />}>
+              <Route path="" element={<QuizIndex />}></Route>
+              <Route path="today" element={<QuizAnswer />}></Route>
+            </Route>
+
             <Route path="/mypage" element={<MyPage />}>
               <Route path="info" element={<MyPageInfo />}></Route>
               <Route path="grade" element={<MyPageGrade />}></Route>

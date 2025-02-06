@@ -12,7 +12,15 @@ const Board = (props) => {
   };
 
   return (
-    <div style={{ width: "100%" }}>
+    <div
+      style={{
+        width: "100%",
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
+        alignItems: "center",
+      }}
+    >
       <ListGroup>
         {contents.map((content, index) => {
           return (

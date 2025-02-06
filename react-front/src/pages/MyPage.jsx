@@ -50,7 +50,7 @@ const MyPage = (props) => {
 
   const styles = {
     listGroupItem: {
-      width: "20vw",
+      width: "100%",
     },
   };
   const setSelectedContent = (index) => {
@@ -70,7 +70,7 @@ const MyPage = (props) => {
   };
   return (
     <div className="main-container-row">
-      <div style={{ width: "20vw", marginTop: "30px", padding: "30px" }}>
+      <div style={{ width: "200px", marginTop: "30px", padding: "30px" }}>
         <LeftListGroup
           items={items}
           styles={styles}

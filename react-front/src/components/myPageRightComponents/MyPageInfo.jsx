@@ -5,7 +5,7 @@ const MyPageInfo = (props) => {
     <div style={{ display: "flex", flexDirection: "row" }}>
       <div
         style={{
-          width: "10vw",
+          minWidth: "150px",
           marginTop: "30px",
           padding: "30px",
         }}
@@ -15,7 +15,7 @@ const MyPageInfo = (props) => {
           roundedCircle
         />
       </div>
-      <div style={{ width: "40vw", marginTop: "30px", padding: "30px" }}>
+      <div style={{ minWidth: "200px", marginTop: "30px", padding: "30px" }}>
         <Form>
           <InputGroup className="mb-3">
             <InputGroup.Text id="basic-addon1">이름</InputGroup.Text>
