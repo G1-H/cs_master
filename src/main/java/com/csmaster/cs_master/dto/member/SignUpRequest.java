@@ -23,7 +23,6 @@ public class SignUpRequest {
     @Email(message = "올바른 이메일 형식이 아닙니다.")
     private String email;
 
-    @NotNull
     @Pattern(
             regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[!@#$%^&*])[A-Za-z\\d!@#$%^&*]{8,}$",
             message = "비밀번호는 최소 8자 이상이며, 대문자, 소문자, 숫자, 특수문자를 포함해야 합니다."
@@ -33,6 +32,8 @@ public class SignUpRequest {
     private int studyPeriod;
     private String position;
     private String profileImage;
+    private String provider;
+    private String providerId;
 
 
 }
