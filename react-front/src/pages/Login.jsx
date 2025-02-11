@@ -21,6 +21,26 @@ const styles = {
 
 const Login = (props) => {
   const { onClickLogin } = props;
+  const onClickKakaoLogin = async () => {
+    try {
+      const response = await fetch("http://localhost:8080/api/auth/kakao", {
+        method: "GET",
+        credentials: "include", // 쿠키를 포함해야 할 경우 추가
+      });
+
+      if (!response.ok) {
+        throw new Error("카카오 로그인 요청 실패");
+      }
+
+      const data = await response.json();
+      console.log("카카오 로그인 성공:", data);
+      // 로그인 후 처리 (예: 페이지 이동)
+      window.location.href = data.data;
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return (
     <div className="main-container">
       <div style={styles.btnDiv}>
@@ -79,6 +99,7 @@ const Login = (props) => {
             width: "10rem",
             height: "3rem",
           }}
+          onClick={onClickKakaoLogin}
         >
           카카오 로그인
         </Button>
