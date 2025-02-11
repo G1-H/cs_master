@@ -7,6 +7,7 @@ import com.csmaster.cs_master.exception.domain.MemberExceptionInfo;
 import com.csmaster.cs_master.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -14,12 +15,32 @@ public class MemberService {
 
     private final MemberRepository memberRepository;
 
+    @Transactional
     public String signUp(SignUpRequest request) {
+        String provider = request.getProvider();
 
+        // 소셜 회원 로그인 한 경우, 기존 회원 정보 수정
+        if (provider != null) {
+            String providerId = request.getProviderId();
+
+            checkNickname(request.getNickname());
+
+            Member member = memberRepository.findByProviderIdAndProvider(providerId, provider)
+                    .orElseThrow(() -> new RuntimeException("해당 소셜 계정이 존재하지 않습니다."));
+
+            member.setName(request.getName());
+            member.setNickname(request.getNickname());
+            member.setPosition(request.getPosition());
+            member.setProfileImage(request.getProfileImage());
+            member.setStudyPeriod(request.getStudyPeriod());
+
+            return member.getEmail();
+        }
+
+        // 일반 회원가입 로직
         checkEmail(request.getEmail());
         checkNickname(request.getNickname());
 
-        // 중복 없으면 회원 등록 데이터베이스 저장
         Member member = Member.builder()
                 .grade(request.getGrade())
                 .name(request.getName())
@@ -35,7 +56,6 @@ public class MemberService {
 
         return member.getEmail();
     }
-
     // 이메일 중복 확인
     public void checkEmail(String email) {
         if (memberRepository.findByEmail(email).isPresent()) {
