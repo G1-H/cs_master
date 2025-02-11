@@ -18,22 +18,20 @@ public class Member {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long memberId;
 
-    @Column( nullable = false)
-    private String name;
+    private String name;// 일반 회원은 필수, 소셜 로그인은 필수 x
 
     @Column( nullable = false)
     private int grade;
 
-    @Column(length = 20, nullable = false)
+    @Column(length = 20)// 일반 회원은 필수, 소셜 로그인은 필수 x
     private String nickname;
 
-    @Column(nullable = false, length=120)
+    @Column( length=120) // 일반 회원은 필수, 소셜 로그인은 필수 x
     private String email;
 
-    @Column( nullable = false)
+    // 일반 회원은 필수, 소셜 로그인은 필수 x
     private String password;
 
-    @Column
     private int studyPeriod;
 
     @Column(length=20)
@@ -43,15 +41,15 @@ public class Member {
     private String profileImage;
 
     @CreationTimestamp
-    @Column
     private Instant createdAt;
 
     @UpdateTimestamp
-    @Column
     private Instant updatedAt;
 
-    @Column
     private Boolean isDeleted;
+
+    private String provider;   // "KAKAO" "NAVER"(일반 회원가입은 NULL)
+    private String providerId; // 소셜 로그인 시 해당 플랫폼에서 제공하는 사용자 고유 ID
 
 
 }
