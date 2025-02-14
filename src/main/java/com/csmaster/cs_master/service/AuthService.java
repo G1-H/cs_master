@@ -2,15 +2,16 @@ package com.csmaster.cs_master.service;
 
 import com.csmaster.cs_master.dto.auth.request.LoginRequest;
 import com.csmaster.cs_master.dto.auth.response.LoginResponse;
-import com.csmaster.cs_master.dto.auth.response.SocialLoginResponse;
 import com.csmaster.cs_master.entity.Member;
 import com.csmaster.cs_master.exception.CustomException;
 import com.csmaster.cs_master.exception.domain.AuthExceptionInfo;
-import com.csmaster.cs_master.exception.domain.SocialLoginException;
 import com.csmaster.cs_master.repository.MemberRepository;
 import com.csmaster.cs_master.security.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -30,6 +31,7 @@ public class AuthService {
     private final MemberService memberService;
     private final MemberRepository memberRepository;
     private final JwtTokenProvider tokenProvider;
+    private final PasswordEncoder passwordEncoder;
 
     public String getKakaoCodeAndRedirect() {
         return "https://kauth.kakao.com/oauth/authorize?response_type=code&client_id="+kakaoRestAPiKey+"&redirect_uri="+ kakaoRedirectURI;
@@ -93,13 +95,18 @@ public class AuthService {
 
     }
 
+    public Long getCurrentMemberId() {
+        JwtAuthenticationToken authentication = (JwtAuthenticationToken) SecurityContextHolder.getContext().getAuthentication();
+        return  (Long) authentication.getTokenAttributes().get("id");
+    }
+
     private LoginResponse loginGeneral(LoginRequest request) {
         String email = request.getEmail();
         String password = request.getPassword();
         Optional<Member> existingMember = memberRepository.findByEmail(email);
         if (existingMember.isPresent()) {
             Member member = existingMember.get();
-            if (member.getPassword().equals(password)) {
+            if (passwordEncoder.matches(password,member.getPassword())) {
                 String accessToken = tokenProvider.generateAccessToken(member.getMemberId(), null);
                 String refreshToken = tokenProvider.generateRefreshToken(member.getMemberId(), null);
                 return new LoginResponse(accessToken, refreshToken, member.getEmail());

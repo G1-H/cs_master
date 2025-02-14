@@ -2,7 +2,6 @@ package com.csmaster.cs_master.controller;
 
 import com.csmaster.cs_master.dto.auth.request.LoginRequest;
 import com.csmaster.cs_master.dto.auth.response.LoginResponse;
-import com.csmaster.cs_master.dto.auth.response.SocialLoginResponse;
 import com.csmaster.cs_master.service.AuthService;
 import com.csmaster.cs_master.utils.ApiUtil;
 import jakarta.servlet.http.HttpServletResponse;
