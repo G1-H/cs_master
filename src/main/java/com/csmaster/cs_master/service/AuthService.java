@@ -5,6 +5,7 @@ import com.csmaster.cs_master.dto.auth.response.LoginResponse;
 import com.csmaster.cs_master.entity.Member;
 import com.csmaster.cs_master.exception.CustomException;
 import com.csmaster.cs_master.exception.domain.AuthExceptionInfo;
+import com.csmaster.cs_master.exception.domain.MemberExceptionInfo;
 import com.csmaster.cs_master.repository.MemberRepository;
 import com.csmaster.cs_master.security.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
@@ -28,7 +29,6 @@ public class AuthService {
     @Value("${kakao.REDIRECT_URI}")
     private String kakaoRedirectURI;
 
-    private final MemberService memberService;
     private final MemberRepository memberRepository;
     private final JwtTokenProvider tokenProvider;
     private final PasswordEncoder passwordEncoder;
@@ -68,7 +68,9 @@ public class AuthService {
         }
 
 
-        memberService.checkEmail(email);
+        if (memberRepository.findByEmail(email).isPresent()) {
+            throw new CustomException(MemberExceptionInfo.DUPLICATE_EMAIL);
+        }
         Member newMember = Member.builder()
                 .email(email)
                 .provider("kakao")
