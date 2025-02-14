@@ -99,6 +99,7 @@ const Login = (props) => {
             width: "10rem",
             height: "3rem",
           }}
+          to="/mypage"
           onClick={onClickKakaoLogin}
         >
           카카오 로그인

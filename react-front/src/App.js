@@ -1,7 +1,7 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Route, Routes } from "react-router-dom";
 
 import AppHeader from "./components/Header";
@@ -23,34 +23,51 @@ import QuizCreate from "./pages/QuizCreate";
 import ConceptUpdate from "./pages/ConceptUpdate";
 import QuizAnswer from "./pages/QuizAnswer";
 import QuizIndex from "./pages/QuizIndex";
+import AuthCallback from "./pages/AuthCallback";
 
 function App() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  // ✅ 로그인 상태를 access_token 여부로 관리
+  const [isLoggedIn, setIsLoggedIn] = useState(
+    !!localStorage.getItem("access_token")
+  );
 
-  const onClickLogin = () => {
-    console.log("여기 되는거야?");
+  // ✅ localStorage가 변경될 때 로그인 상태 업데이트
+  useEffect(() => {
+    const checkLoginStatus = () => {
+      setIsLoggedIn(!!localStorage.getItem("access_token"));
+    };
+
+    window.addEventListener("storage", checkLoginStatus);
+    return () => {
+      window.removeEventListener("storage", checkLoginStatus);
+    };
+  }, []);
+
+  // ✅ 로그인 성공 시 호출할 함수
+  const onLoginSuccess = () => {
     setIsLoggedIn(true);
   };
+
+  // ✅ 로그아웃 시 호출할 함수
   const onClickLogout = () => {
+    localStorage.removeItem("access_token");
+    localStorage.removeItem("refresh_token");
     setIsLoggedIn(false);
   };
   return (
     <div className="App">
       <header className="mb-auto" id="header">
-        <AppHeader
-          isLoggedIn={isLoggedIn}
-          onClickLogin={onClickLogin}
-          onClickLogout={onClickLogout}
-        />
+        <AppHeader isLoggedIn={isLoggedIn} onClickLogout={onClickLogout} />
       </header>
       <main id="main">
         <section className="body-block">
           <Routes>
             <Route path="/" element={<Home />}></Route>
+            <Route path="/login" element={<Login />}></Route>
             <Route
-              path="/login"
-              element={<Login onClickLogin={onClickLogin} />}
-            ></Route>
+              path="/auth/callback"
+              element={<AuthCallback onLoginSuccess={onLoginSuccess} />}
+            />
             <Route path="/learning" element={<Learning />}>
               <Route path=":id" element={<Board />}></Route>
               <Route path=":id/detail/:id" element={<DetailView />} />
