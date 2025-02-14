@@ -12,6 +12,8 @@ public enum AuthExceptionInfo implements ExceptionInfo {
     INVALID_GENERAL_MEMBER(HttpStatus.BAD_REQUEST, "이메일 또는 비밀번호가 일치 하지 않습니다."),
     INVALID_SOCIAL_MEMBER(HttpStatus.BAD_REQUEST, "잘못된 소셜 로그인 회원 요청입니다."),
     INVALID_SOCIAL_PROVIDER(HttpStatus.BAD_REQUEST, "지원하지 않는 소셜 로그인 방식입니다."),
+    MEMBER_NOT_FOUND_IN_TOKEN(HttpStatus.UNAUTHORIZED, "토큰이 유효하지만, 해당 회원 없음"),
+    INVALID_TOKEN(HttpStatus.UNAUTHORIZED, "토큰이 유효하지 않음"),
     ;
 
     private HttpStatus status;
