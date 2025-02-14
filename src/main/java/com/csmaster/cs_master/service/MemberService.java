@@ -2,14 +2,19 @@ package com.csmaster.cs_master.service;
 
 import com.csmaster.cs_master.dto.member.request.SignUpRequest;
 import com.csmaster.cs_master.dto.auth.response.LoginResponse;
+import com.csmaster.cs_master.dto.member.response.InfoResponse;
 import com.csmaster.cs_master.entity.Member;
 import com.csmaster.cs_master.exception.CustomException;
+import com.csmaster.cs_master.exception.domain.AuthExceptionInfo;
 import com.csmaster.cs_master.exception.domain.MemberExceptionInfo;
 import com.csmaster.cs_master.repository.MemberRepository;
 import com.csmaster.cs_master.security.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -17,6 +22,7 @@ public class MemberService {
 
     private final MemberRepository memberRepository;
     private final JwtTokenProvider tokenProvider;
+    private final PasswordEncoder passwordEncoder;
     private final AuthService authService;
 
     @Transactional
@@ -43,7 +49,7 @@ public class MemberService {
                 .name(request.getName())
                 .nickname(request.getNickname())
                 .email(request.getEmail())
-                .password(request.getPassword())
+                .password(passwordEncoder.encode(request.getPassword()))
                 .studyPeriod(request.getStudyPeriod())
                 .position(request.getPosition())
                 .profileImage(request.getProfileImage())
@@ -77,6 +83,7 @@ public class MemberService {
         return new LoginResponse(accessToken, refreshToken, member.getEmail());
 
     }
+
     // 이메일 중복 확인
     public void checkEmail(String email) {
         if (memberRepository.findByEmail(email).isPresent()) {
@@ -89,6 +96,20 @@ public class MemberService {
         if (memberRepository.findByNickname(nickname).isPresent()) {
             throw new CustomException(MemberExceptionInfo.DUPLICATE_NICKNAME);
         }
+    }
+
+    public InfoResponse getInfo() {
+        Long userId = authService.getCurrentMemberId();
+        Member member = validateMember(userId);
+        return InfoResponse.from(member);
+    }
+
+    private Member validateMember(Long id) {
+        Optional<Member> existingMember = memberRepository.findById(id);
+        if (existingMember.isPresent()) {
+            return existingMember.get();
+        }
+        throw new CustomException(AuthExceptionInfo.MEMBER_NOT_FOUND_IN_TOKEN);
     }
 
 }

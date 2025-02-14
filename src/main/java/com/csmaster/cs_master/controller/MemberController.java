@@ -1,6 +1,7 @@
 package com.csmaster.cs_master.controller;
 
 import com.csmaster.cs_master.dto.member.request.SignUpRequest;
+import com.csmaster.cs_master.dto.member.response.InfoResponse;
 import com.csmaster.cs_master.service.MemberService;
 import com.csmaster.cs_master.utils.ApiUtil;
 import com.csmaster.cs_master.vo.Response;
@@ -35,6 +36,12 @@ public class MemberController {
     public ResponseEntity<Response<Void>> checkNickname(@RequestParam(value = "nickname") String nickname) {
         memberService.checkNickname(nickname);
         return ApiUtil.success(HttpStatus.OK, nickname + " 닉네임 중복되지 않습니다.", null);
+    }
+
+    @GetMapping("/info")
+    public ResponseEntity<Response<InfoResponse>> getInfo() {
+        return ApiUtil.success(HttpStatus.OK, "회원정보를 불러왔습니다.", memberService.getInfo());
+
     }
 
 }
