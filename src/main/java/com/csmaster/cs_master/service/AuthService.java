@@ -1,10 +1,14 @@
 package com.csmaster.cs_master.service;
 
-import com.csmaster.cs_master.dto.auth.SocialLoginResponse;
+import com.csmaster.cs_master.dto.auth.request.LoginRequest;
+import com.csmaster.cs_master.dto.auth.response.LoginResponse;
+import com.csmaster.cs_master.dto.auth.response.SocialLoginResponse;
 import com.csmaster.cs_master.entity.Member;
 import com.csmaster.cs_master.exception.CustomException;
 import com.csmaster.cs_master.exception.domain.AuthExceptionInfo;
+import com.csmaster.cs_master.exception.domain.SocialLoginException;
 import com.csmaster.cs_master.repository.MemberRepository;
+import com.csmaster.cs_master.security.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -12,7 +16,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 
-import java.util.*;
+import java.util.Map;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -20,30 +25,44 @@ public class AuthService {
     @Value("${kakao.REST_API_KEY}")
     private String kakaoRestAPiKey;
     @Value("${kakao.REDIRECT_URI}")
-    private String kakakRedirectURI;
+    private String kakaoRedirectURI;
 
     private final MemberService memberService;
     private final MemberRepository memberRepository;
+    private final JwtTokenProvider tokenProvider;
+
+    public String getKakaoCodeAndRedirect() {
+        return "https://kauth.kakao.com/oauth/authorize?response_type=code&client_id="+kakaoRestAPiKey+"&redirect_uri="+ kakaoRedirectURI;
+    }
 
     @Transactional
-    public SocialLoginResponse kakaoLogin(String code) {
+    public String kakaoLogin(String code) {
 
-        String accessToken = getAccessToken(code, kakaoRestAPiKey, kakakRedirectURI);
+        String accessToken = getKakaoAccessToken(code, kakaoRestAPiKey, kakaoRedirectURI);
 
-        Map<String, Object> userInfo = getUserInfoWithAccessToken(accessToken);
+        Map<String, Object> userInfo = getUserInfoWithKakaoAccessToken(accessToken);
 
-        String userKakaoID = String.valueOf(userInfo.get("id"));
+        String userKakaoId = String.valueOf(userInfo.get("id"));
 
         Map<String, Object> kakaoAccount = (Map<String, Object>) userInfo.get("kakao_account");
         String email = (String) kakaoAccount.get("email");
 
-        Optional<Member> existingMember = memberRepository.findByProviderIdAndProvider(userKakaoID, "kakao");
+        boolean isRegistered = false;
+
+        Optional<Member> existingMember = memberRepository.findByProviderIdAndProvider(userKakaoId, "kakao");
         if (existingMember.isPresent()) {
             Member member = existingMember.get();
-            if (member.getCreatedAt().equals(member.getUpdatedAt())) {
-                throw new CustomException(AuthExceptionInfo.ALREADY_SIGN_UP_KAKAO);
+            if (!member.getCreatedAt().equals(member.getUpdatedAt())) {
+                isRegistered= true;
+                return "http://localhost:3000/auth/callback"
+                        + "?provider_id=" + member.getProviderId()
+                        + "&email=" + member.getEmail()
+                        + "&is_registered=" + isRegistered;
             }
-            return new SocialLoginResponse(userKakaoID, email);
+            return "http://localhost:3000/auth/callback"
+                    + "?provider_id=" + member.getProviderId()
+                    + "&email=" + member.getEmail()
+                    + "&is_registered=" + isRegistered;
         }
 
 
@@ -51,14 +70,59 @@ public class AuthService {
         Member newMember = Member.builder()
                 .email(email)
                 .provider("kakao")
-                .providerId(userKakaoID)
+                .providerId(userKakaoId)
                 .build();
         memberRepository.save(newMember);
 
-        return new SocialLoginResponse(userKakaoID, email);
+        return "http://localhost:3000/auth/callback"
+                + "?provider_id=" + newMember.getProviderId()
+                + "&email=" + newMember.getEmail()
+                + "&is_registered=" + isRegistered;
     }
 
-    private String getAccessToken(String code, String clientID, String redirectURI) {
+    public LoginResponse login(LoginRequest request) {
+        if (request.getProvider() == null || request.getProvider().isBlank()) {
+            return loginGeneral(request);
+        }
+
+        return switch (request.getProvider().toLowerCase()) {
+            
+            case "kakao", "naver" -> loginSocial(request);
+            default -> throw new CustomException(AuthExceptionInfo.INVALID_SOCIAL_PROVIDER);
+        };
+
+    }
+
+    private LoginResponse loginGeneral(LoginRequest request) {
+        String email = request.getEmail();
+        String password = request.getPassword();
+        Optional<Member> existingMember = memberRepository.findByEmail(email);
+        if (existingMember.isPresent()) {
+            Member member = existingMember.get();
+            if (member.getPassword().equals(password)) {
+                String accessToken = tokenProvider.generateAccessToken(member.getMemberId(), null);
+                String refreshToken = tokenProvider.generateRefreshToken(member.getMemberId(), null);
+                return new LoginResponse(accessToken, refreshToken, member.getEmail());
+            }
+        }
+        throw new CustomException(AuthExceptionInfo.INVALID_GENERAL_MEMBER);
+
+    }
+
+    private LoginResponse loginSocial(LoginRequest request) {
+        String provider = request.getProvider();
+        String providerId = request.getProviderId();
+        Optional<Member> existingMember = memberRepository.findByProviderIdAndProvider(providerId, provider);
+        if (existingMember.isPresent()) {
+            Member member = existingMember.get();
+            String accessToken = tokenProvider.generateAccessToken(member.getMemberId(), null);
+            String refreshToken = tokenProvider.generateRefreshToken(member.getMemberId(), null);
+            return new LoginResponse(accessToken, refreshToken, member.getEmail());
+        }
+        throw new CustomException(AuthExceptionInfo.INVALID_SOCIAL_MEMBER);
+    }
+
+    private String getKakaoAccessToken(String code, String clientID, String redirectURI) {
         WebClient webClient = WebClient.create("https://kauth.kakao.com");
         Mono<Map> responseMono = webClient.post()
                 .uri("/oauth/token")
@@ -75,7 +139,7 @@ public class AuthService {
         return (String) response.get("access_token");
     }
 
-    private Map<String, Object> getUserInfoWithAccessToken(String accessToken) {
+    private Map<String, Object> getUserInfoWithKakaoAccessToken(String accessToken) {
         WebClient webClient = WebClient.create("https://kapi.kakao.com");
         Mono<Map> responseUserInfoMono = webClient.post()
                 .uri("/v2/user/me")
