@@ -1,12 +1,14 @@
-package com.csmaster.cs_master.dto.member;
+package com.csmaster.cs_master.dto.member.request;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
+@NoArgsConstructor
 public class SignUpRequest {
 
     @NotNull
@@ -34,6 +36,5 @@ public class SignUpRequest {
     private String profileImage;
     private String provider;
     private String providerId;
-
 
 }
