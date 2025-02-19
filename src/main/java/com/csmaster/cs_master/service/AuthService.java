@@ -8,6 +8,8 @@ import com.csmaster.cs_master.exception.domain.AuthExceptionInfo;
 import com.csmaster.cs_master.exception.domain.MemberExceptionInfo;
 import com.csmaster.cs_master.repository.MemberRepository;
 import com.csmaster.cs_master.security.JwtTokenProvider;
+import com.csmaster.cs_master.security.Provider;
+import com.csmaster.cs_master.security.Role;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -51,20 +53,14 @@ public class AuthService {
 
         boolean isRegistered = false;
 
-        Optional<Member> existingMember = memberRepository.findByProviderIdAndProvider(userKakaoId, "kakao");
+        Optional<Member> existingMember = memberRepository.findByProviderIdAndProvider(userKakaoId, Provider.KAKAO.getProvider());
         if (existingMember.isPresent()) {
             Member member = existingMember.get();
             if (!member.getCreatedAt().equals(member.getUpdatedAt())) {
                 isRegistered= true;
-                return "http://localhost:3000/auth/callback"
-                        + "?provider_id=" + member.getProviderId()
-                        + "&email=" + member.getEmail()
-                        + "&is_registered=" + isRegistered;
+                return callbackUri(member, isRegistered);
             }
-            return "http://localhost:3000/auth/callback"
-                    + "?provider_id=" + member.getProviderId()
-                    + "&email=" + member.getEmail()
-                    + "&is_registered=" + isRegistered;
+            return callbackUri(member, isRegistered);
         }
 
 
@@ -73,15 +69,12 @@ public class AuthService {
         }
         Member newMember = Member.builder()
                 .email(email)
-                .provider("kakao")
+                .provider(Provider.KAKAO.getProvider())
                 .providerId(userKakaoId)
                 .build();
         memberRepository.save(newMember);
 
-        return "http://localhost:3000/auth/callback"
-                + "?provider_id=" + newMember.getProviderId()
-                + "&email=" + newMember.getEmail()
-                + "&is_registered=" + isRegistered;
+        return callbackUri(newMember, isRegistered);
     }
 
     public LoginResponse login(LoginRequest request) {
@@ -109,8 +102,8 @@ public class AuthService {
         if (existingMember.isPresent()) {
             Member member = existingMember.get();
             if (passwordEncoder.matches(password,member.getPassword())) {
-                String accessToken = tokenProvider.generateAccessToken(member.getMemberId(), null);
-                String refreshToken = tokenProvider.generateRefreshToken(member.getMemberId(), null);
+                String accessToken = tokenProvider.generateAccessToken(member.getMemberId(), Role.MEMBER.getRole());
+                String refreshToken = tokenProvider.generateRefreshToken(member.getMemberId(),  Role.MEMBER.getRole());
                 return new LoginResponse(accessToken, refreshToken, member.getEmail());
             }
         }
@@ -124,8 +117,8 @@ public class AuthService {
         Optional<Member> existingMember = memberRepository.findByProviderIdAndProvider(providerId, provider);
         if (existingMember.isPresent()) {
             Member member = existingMember.get();
-            String accessToken = tokenProvider.generateAccessToken(member.getMemberId(), null);
-            String refreshToken = tokenProvider.generateRefreshToken(member.getMemberId(), null);
+            String accessToken = tokenProvider.generateAccessToken(member.getMemberId(), Role.MEMBER.getRole());
+            String refreshToken = tokenProvider.generateRefreshToken(member.getMemberId(), Role.MEMBER.getRole());
             return new LoginResponse(accessToken, refreshToken, member.getEmail());
         }
         throw new CustomException(AuthExceptionInfo.INVALID_SOCIAL_MEMBER);
@@ -158,9 +151,14 @@ public class AuthService {
                 .retrieve()
                 .bodyToMono(Map.class);
 
-        Map<String, Object> userInfo = responseUserInfoMono.block();
+        return responseUserInfoMono.block();
+    }
 
-        return userInfo;
+    private String callbackUri(Member member, Boolean isRegistered) {
+      return  "http://localhost:3000/auth/callback"
+                + "?provider_id=" + member.getProviderId()
+                + "&email=" + member.getEmail()
+                + "&is_registered=" + isRegistered;
     }
 
 }
